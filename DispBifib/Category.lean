@@ -30,8 +30,8 @@ instance (M : Magma.{u,v}) (a b c : M) : Comp (a ⟶ b) (b ⟶ c) (a ⟶ c) wher
   comp := M.comp
 
 structure Category extends Magma.{u,v} where
-  id_comp : ∀ {a b : obj} (f : a ⟶ b), f ≫ 𝟙 b = f
-  comp_id : ∀ {a b : obj} (f : a ⟶ b), 𝟙 a ≫ f = f
+  id_comp : ∀ {a b : obj} (f : a ⟶ b), 𝟙 a ≫ f = f
+  comp_id : ∀ {a b : obj} (f : a ⟶ b), f ≫ 𝟙 b = f
   assoc :
     ∀ {a b c d : obj},
     ∀ (f : a ⟶ b) (g : b ⟶ c) (h : c ⟶ d),

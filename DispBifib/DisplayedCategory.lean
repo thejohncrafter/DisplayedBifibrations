@@ -55,11 +55,11 @@ where
   id_comp :
     ∀ {a₀ b₀ : C₀} {a : obj a₀} {b : obj b₀},
     ∀ (f : a ⟶ b),
-      f ≫ 𝟙 b = f
+      𝟙 a ≫ f = f
   comp_id :
     ∀ {a₀ b₀ : C₀} {a : obj a₀} {b : obj b₀},
     ∀ (f : a ⟶ b),
-      𝟙 a ≫ f = f
+      f ≫ 𝟙 b = f
   assoc :
     ∀ {a₀ b₀ c₀ d₀ : C₀} {a : obj a₀} {b : obj b₀} {c : obj c₀} {d : obj d₀},
     ∀ (f : a ⟶ b) (g : b ⟶ c) (h : c ⟶ d),
