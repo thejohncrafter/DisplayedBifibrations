@@ -11,8 +11,8 @@ class Comp (α : Sort u) (β : Sort v) (γ : outParam (Sort w)) where
 
 infixr:80 " ≫ " => Comp.comp
 
-class Id (α : Sort u) (φ : α → outParam (Sort w)) where
-  id : (a : α) → φ a
+class Id (α : Sort u) (φ : outParam (α → α → Sort w)) where
+  id : (a : α) → φ a a
 
 notation "𝟙" => Id.id
 

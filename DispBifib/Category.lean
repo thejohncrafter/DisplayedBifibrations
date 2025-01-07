@@ -23,8 +23,7 @@ structure Magma extends Quiver where
 instance : CoeSort Magma.{u,v} (Sort u) where
   coe M := M.obj
 
-@[default_instance]
-instance (M : Magma.{u,v}) : Id M (fun a => a ⟶ a) where
+instance (M : Magma.{u,v}) : Id M (fun a b => a ⟶ b) where
   id := M.id
 
 instance (M : Magma.{u,v}) (a b c : M) : Comp (a ⟶ b) (b ⟶ c) (a ⟶ c) where

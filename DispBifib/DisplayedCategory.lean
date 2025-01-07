@@ -15,7 +15,6 @@ instance
 where
   coe Q := Q.obj
 
-@[default_instance]
 instance
   {Q₀ : Quiver.{u,v}} (Q : Quiver.Displayed Q₀)
   {a₀ b₀ : Q₀} : Hom (Q a₀) (Q b₀) (Sort v)
@@ -37,14 +36,12 @@ instance
 where
   coe M := M.obj
 
-@[default_instance]
 instance
   {M₀ : Magma.{u,v}} (M : Magma.Displayed M₀)
-  {a₀ : M₀} : Id (M a₀) (fun a => a ⟶ a)
+  {a₀ : M₀} : Id (M a₀) (fun a b => a ⟶ b)
 where
   id := M.id
 
-@[default_instance]
 instance
   {M₀ : Magma.{u,v}} (M : Magma.Displayed M₀)
   {a₀ b₀ c₀ : M₀} (a : M a₀) (b : M b₀) (c : M c₀)
