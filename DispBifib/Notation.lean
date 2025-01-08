@@ -25,12 +25,4 @@ class Id (α : Sort u) (φ : outParam (α → α → Sort w)) where
 
 notation "𝟙" => Id.id
 
-inductive IdxEq
-  {α : Sort u} {F : α → Sort v}
-  : {a b : α} → F a → F b → Prop
-where
-| refl {a : α} (b : F a) : IdxEq b b
-
-infix:50 " =* " => IdxEq
-
 end DispBifib

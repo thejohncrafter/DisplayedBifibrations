@@ -1,11 +1,12 @@
 import DispBifib.Notation
+import DispBifib.IdxEq
 import DispBifib.Category
 
 namespace DispBifib
 
 universe u v
 
-structure Quiver.Displayed (Q₀ : Quiver.{u,v}) where
+protected structure Quiver.Displayed (Q₀ : Quiver.{u,v}) where
   obj : Q₀.obj → Sort u
   hom : {a b : Q₀.obj} → obj a → obj b → (a ⟶ b) → Sort v
 
@@ -21,7 +22,7 @@ instance
 where
   hom := Q.hom
 
-structure Magma.Displayed (M₀ : Magma.{u,v})
+protected structure Magma.Displayed (M₀ : Magma.{u,v})
   extends Quiver.Displayed M₀.toQuiver
 where
   id : {a₀ : M₀} → (a : obj a₀) → (a [𝟙 a₀]⟶ a)
@@ -51,7 +52,7 @@ instance
 where
   comp := M.comp
 
-structure Category.Displayed (C₀ : Category.{u,v})
+protected structure Category.Displayed (C₀ : Category.{u,v})
   extends Magma.Displayed C₀.toMagma
 where
   id_comp :
