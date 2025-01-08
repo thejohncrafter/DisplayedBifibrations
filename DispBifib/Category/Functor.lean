@@ -1,6 +1,6 @@
-
 import DispBifib.Notation
-import DispBifib.Category
+
+import DispBifib.Category.Category
 
 namespace DispBifib
 
