@@ -4,23 +4,23 @@ namespace DispBifib
 
 universe u v
 
-structure Quiver where
-  obj : Sort u
-  hom : obj → obj → Sort v
+structure Quiver : Type (max u v + 1) where
+  obj : Type u
+  hom : obj → obj → Type v
 
-instance : CoeSort Quiver.{u,v} (Sort u) where
+instance : CoeSort Quiver.{u,v} (Type u) where
   coe Q := Q.obj
 
-instance (Q : Quiver.{u,v}) : Hom Q Q (Sort v) where
+instance (Q : Quiver.{u,v}) : Hom Q Q (Type v) where
   hom := Q.hom
 
-structure Magma extends Quiver where
+structure Magma extends Quiver.{u,v} where
   id : (a : obj) → (a ⟶ a)
   comp
     : {a b c : obj}
     → (a ⟶ b) → (b ⟶ c) → (a ⟶ c)
 
-instance : CoeSort Magma.{u,v} (Sort u) where
+instance : CoeSort Magma.{u,v} (Type u) where
   coe M := M.obj
 
 instance (M : Magma.{u,v}) : Id M (fun a b => a ⟶ b) where
@@ -37,7 +37,7 @@ structure Category extends Magma.{u,v} where
     ∀ (f : a ⟶ b) (g : b ⟶ c) (h : c ⟶ d),
       (f ≫ g) ≫ h = f ≫ g ≫ h
 
-instance : CoeSort Category.{u,v} (Sort u) where
+instance : CoeSort Category.{u,v} (Type u) where
   coe C := C.obj
 
 end DispBifib

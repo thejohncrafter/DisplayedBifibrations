@@ -6,19 +6,22 @@ namespace DispBifib
 
 universe u v
 
-protected structure Quiver.Displayed (Q₀ : Quiver.{u,v}) where
-  obj : Q₀.obj → Sort u
-  hom : {a b : Q₀.obj} → obj a → obj b → (a ⟶ b) → Sort v
+protected structure Quiver.Displayed
+  (Q₀ : Quiver.{u,v})
+  : Type (max u v + 1)
+where
+  obj : Q₀.obj → Type u
+  hom : {a b : Q₀.obj} → obj a → obj b → (a ⟶ b) → Type v
 
 instance
   (Q₀ : Quiver.{u,v})
-  : CoeFun (Quiver.Displayed Q₀) (fun _ => Q₀ → Sort u)
+  : CoeFun (Quiver.Displayed Q₀) (fun _ => Q₀ → Type u)
 where
   coe Q := Q.obj
 
 instance
   {Q₀ : Quiver.{u,v}} (Q : Quiver.Displayed Q₀)
-  {a₀ b₀ : Q₀} : IdxHom (Q a₀) (Q b₀) (a₀ ⟶ b₀) (Sort v)
+  {a₀ b₀ : Q₀} : IdxHom (Q a₀) (Q b₀) (a₀ ⟶ b₀) (Type v)
 where
   hom := Q.hom
 
@@ -34,7 +37,7 @@ where
 
 instance
   (M₀ : Magma.{u,v})
-  : CoeFun (Magma.Displayed M₀) (fun _ => M₀ → Sort u)
+  : CoeFun (Magma.Displayed M₀) (fun _ => M₀ → Type u)
 where
   coe M := M.obj
 
@@ -71,7 +74,7 @@ where
 
 instance
   (C₀ : Category.{u,v})
-  : CoeFun (Category.Displayed C₀) (fun _ => C₀ → Sort u)
+  : CoeFun (Category.Displayed C₀) (fun _ => C₀ → Type u)
 where
   coe C := C.obj
 

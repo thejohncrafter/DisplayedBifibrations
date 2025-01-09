@@ -4,7 +4,10 @@ import DispBifib.Category.Category
 
 namespace DispBifib
 
-structure Functor (C : Category.{u₁,v₁}) (D : Category.{u₂,v₂}) where
+structure Functor
+  (C : Category.{u₁,v₁}) (D : Category.{u₂,v₂})
+  : Type (max u₁ u₂ v₁ v₂)
+where
   map : C → D
   fmap : {a b : C} → (a ⟶ b) → (map a ⟶ map b)
   fmap_id : ∀ a : C, fmap (𝟙 a) = 𝟙 (map a)
@@ -82,7 +85,7 @@ theorem NatTrans.assoc
 
 def FunctorCategory
   (C : Category.{u₁,v₁}) (D : Category.{u₂,v₂})
-  : Category
+  : Category.{max u₁ v₁ u₂ v₂, max u₁ v₂}
 where
   obj := Functor C D
   hom F G := NatTrans F G

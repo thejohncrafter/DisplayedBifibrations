@@ -10,6 +10,7 @@ protected structure Functor.Displayed
   {C₀ : Category.{u₁,v₁}} {D₀ : Category.{u₂,v₂}}
   (C : Category.Displayed C₀) (D : Category.Displayed D₀)
   (F : C₀ ⇒ D₀)
+  : Type (max u₁ u₂ v₁ v₂)
 where
   map : {a₀ : C₀} → (a : C a₀) → D (F a₀)
   fmap
