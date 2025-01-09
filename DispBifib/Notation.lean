@@ -13,7 +13,7 @@ class IdxHom
 where
   hom : α → β → base → γ
 
-notation:10 l:11 "[" b:min "]⟶ " r:10 => IdxHom.hom l r b
+notation:10 l:11 " [" b:min "]⟶ " r:10 => IdxHom.hom l r b
 
 class Comp (α : Sort u) (β : Sort v) (γ : outParam (Sort w)) where
   comp : α → β → γ

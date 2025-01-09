@@ -12,7 +12,26 @@ Auxiliary goals:
 - [ ] "Bidisplayed Categories" and their correspondance with spans and
   profunctors
 
-## Commentaries
+## Mathematics
+
+## Indexed, Fibered, Displayed
+
+There are three visions of the same phenomenon of "stuff with some other stuff
+on top of it":
+- "Fibrational point of view": with a base $B$, this is $(X, f)$
+  where $f : X \to B$ (plus possibly some extra conditions on $f$).
+  Here, fibers over $x \in B$ are given by $f^{-1}(x)$
+  (at least, morally so, this is only an account of the geometrical side of the
+  story in the case where spaces have well-behaved points).
+- "Indexed point of view": with a base $B$, this is a map
+  $B \to \textrm{Spaces}$.
+  It is more difficult to _formalize_ the meaning of this, but _morally_
+  it's pretty clear (especially for computer scientist who are used to seeing
+  `F : A → Type` as a family of types).
+- "Displayed point of view": this is a novelty that was introduced by
+  [Ahrens & Lumsdaine [1]](#1). That's what I want to discuss here.
+
+## Code Commentaries
 
 ### Indexed Equality
 
