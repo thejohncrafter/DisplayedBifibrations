@@ -4,3 +4,4 @@ import DispBifib.IdxEq
 
 import DispBifib.Category
 import DispBifib.Displayed
+import DispBifib.Fibration
