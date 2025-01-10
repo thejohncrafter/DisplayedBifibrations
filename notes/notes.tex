@@ -1,0 +1,61 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[prologue]{xcolor}
+\definecolor[named]{ACMBlue}{cmyk}{1,0.1,0,0.1}
+\definecolor[named]{ACMYellow}{cmyk}{0,0.16,1,0}
+\definecolor[named]{ACMOrange}{cmyk}{0,0.42,1,0.01}
+\definecolor[named]{ACMRed}{cmyk}{0,0.90,0.86,0}
+\definecolor[named]{ACMLightBlue}{cmyk}{0.49,0.01,0,0}
+\definecolor[named]{ACMGreen}{cmyk}{0.20,0,1,0.19}
+\definecolor[named]{ACMPurple}{cmyk}{0.55,1,0,0.15}
+\definecolor[named]{ACMDarkBlue}{cmyk}{1,0.58,0,0.21}
+
+\usepackage[colorlinks]{hyperref}
+\hypersetup{colorlinks,
+  linkcolor=ACMPurple,
+  citecolor=ACMPurple,
+  urlcolor=ACMDarkBlue,
+  filecolor=ACMDarkBlue}
+
+\usepackage{natbib}
+\bibliographystyle{plainnat}
+
+\usepackage{listings}
+\def\lstlanguagefiles{lstlean.tex}
+\def\lstlanguagefiles{lstlean.tex}
+\lstset{language=lean}
+\definecolor{keywordcolor}{rgb}{0.7, 0.1, 0.1}   % red
+\definecolor{tacticcolor}{rgb}{0.0, 0.1, 0.6}    % blue
+\definecolor{commentcolor}{rgb}{0.4, 0.4, 0.4}   % grey
+\definecolor{symbolcolor}{rgb}{0.0, 0.1, 0.6}    % blue
+\definecolor{sortcolor}{rgb}{0.1, 0.5, 0.1}      % green
+\definecolor{attributecolor}{rgb}{0.7, 0.1, 0.1} % red
+
+\begin{document}
+
+\title{Displayed Bifibrations}
+\author{Julien Marquet-Wagner}
+\date{January 2025}
+
+\maketitle
+
+\begin{abstract}
+  Displayed Categories are a nicely behaved formulation of a "category over a
+  base" that is well-adapted to formalization. We define displayed categories
+  in Lean, and use them to study some properties of bifibrations.
+\end{abstract}
+
+Displayed Categories were introduced by \citet{dispcats}.
+
+\begin{lstlisting}
+structure Quiver : Type (max u v + 1) where
+  obj : Type u
+  hom : obj → obj → Type v
+\end{lstlisting}
+
+\bibliography{bibliography}
+
+\end{document}

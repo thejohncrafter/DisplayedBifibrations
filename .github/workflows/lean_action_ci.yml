@@ -2,6 +2,9 @@ name: Lean Action CI
 
 on:
   push:
+    paths-ignore:
+      - 'notes/**'
+      - 'README.md'
   workflow_dispatch:
 
 jobs:

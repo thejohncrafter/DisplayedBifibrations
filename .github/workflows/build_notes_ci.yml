@@ -1,0 +1,22 @@
+name: Build PDF notes
+
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        uses: xu-cheng/latex-action@v3
+        with:
+          working_directory: notes/
+          root_file: notes.tex
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: notes/notes.pdf
