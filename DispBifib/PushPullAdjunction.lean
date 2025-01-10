@@ -12,7 +12,7 @@ def push_pull_adjunction
   {C₀ : Category.{u,v}} {C : Category.Displayed C₀}
   [Fibration C] [Opfibration C]
   {x y : C₀} (f : x ⟶ y)
-  : Adjunction (pushforward C f) (pullback C f)
+  : pushforward C f ⊣ pullback C f
 where
   appₗᵣ {c : C x} {d : C y} (φ : (oplift_obj f c) [ 𝟙 y ]⟶ d) :=
     have p : 𝟙 x ≫ f = f ≫ 𝟙 y := by rw [C₀.id_comp, C₀.comp_id]
