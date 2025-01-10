@@ -7,6 +7,7 @@ Goals:
 - [ ] Define bifibrations in this setting
 - [ ] Study the [Grothendieck construction][grot-cons]
 - [ ] Maybe study [monadic descent][monadic-descent]
+  - I would like to prove the [Bénabou-Roubaud theorem](benabou-roubaud)
 
 Auxiliary goals:
 - [ ] "Bidisplayed Categories" and their correspondance with spans and
@@ -68,3 +69,4 @@ variable (A B C : Category)
 
 [monadic-descent]: https://ncatlab.org/nlab/show/monadic+descent
 [grot-cons]: https://ncatlab.org/nlab/show/Grothendieck+construction
+[benabou-roubaud]: https://ncatlab.org/nlab/show/B%C3%A9nabou-Roubaud+theorem
