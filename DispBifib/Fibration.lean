@@ -11,21 +11,21 @@ structure Cartesian
   {f₀ : a₀ ⟶ b₀} (f : a [ f₀ ]⟶ b)
 where
   bang
-    : {c₀ : C₀} → {c : C c₀}
-    → {g₀ : c₀ ⟶ b₀} → (g : c [ g₀ ]⟶ b)
-    → (w₀ : c₀ ⟶ a₀)
+    : {c₀ : C₀} → {g₀ : c₀ ⟶ b₀} → (w₀ : c₀ ⟶ a₀)
     → w₀ ≫ f₀ = g₀
+    → {c : C c₀} → (g : c [ g₀ ]⟶ b)
     → (c [ w₀ ]⟶ a)
   bang_prop :
-    ∀ {c₀ : C₀} {c : C c₀},
-    ∀ {g₀ : c₀ ⟶ b₀} (g : c [ g₀ ]⟶ b),
-    ∀ (w₀ : c₀ ⟶ a₀),
-      (h : w₀ ≫ f₀ = g₀) → bang g w₀ h ≫ f =* g
+    ∀ {c₀ : C₀} {g₀ : c₀ ⟶ b₀} (w₀ : c₀ ⟶ a₀),
+      (h : w₀ ≫ f₀ = g₀) →
+    ∀ {c : C c₀} (g : c [ g₀ ]⟶ b),
+      bang w₀ h g ≫ f =* g
   bang_unique :
-    ∀ {g₀ : c₀ ⟶ b₀} (g : c [ g₀ ]⟶ b),
-    ∀ (w₀ : c₀ ⟶ a₀), (h : w₀ ≫ f₀ = g₀) →
-    ∀ (w' : c [ w₀ ]⟶ a),
-      w' ≫ f =* g → bang g w₀ h = w'
+    ∀ {c₀ : C₀} {g₀ : c₀ ⟶ b₀} (w₀ : c₀ ⟶ a₀),
+      (h : w₀ ≫ f₀ = g₀) →
+    ∀ {c : C c₀} (g : c [ g₀ ]⟶ b),
+    ∀ (bang' : c [ w₀ ]⟶ a),
+      bang' ≫ f =* g → bang w₀ h g = bang'
 
 class Fibration
   {C₀ : Category.{u,v}} (C : Category.Displayed C₀)
@@ -63,7 +63,7 @@ def bang
   (w₀ : c₀ ⟶ x)
   (h : w₀ ≫ f = g₀)
   : c [ w₀ ]⟶ lift_obj f b
-:= (fib.cleavage_prop f b).bang g w₀ h
+:= (fib.cleavage_prop f b).bang w₀ h g
 
 def bang_prop
   {C₀ : Category.{u,v}} {C : Category.Displayed C₀} [fib : Fibration C]
@@ -72,7 +72,7 @@ def bang_prop
   (w₀ : c₀ ⟶ x)
   (h : w₀ ≫ f = g₀)
   : bang f b g w₀ h ≫ lift_hom f b =* g
-:= (fib.cleavage_prop f b).bang_prop g w₀ h
+:= (fib.cleavage_prop f b).bang_prop w₀ h g
 
 def bang_unique
   {C₀ : Category.{u,v}} {C : Category.Displayed C₀} [fib : Fibration C]
@@ -82,7 +82,7 @@ def bang_unique
   (h : w₀ ≫ f = g₀)
   : ∀ (w' : c [ w₀ ]⟶ lift_obj f b),
     (w' ≫ lift_hom f b =* g) → bang f b g w₀ h = w'
-:= (fib.cleavage_prop f b).bang_unique g w₀ h
+:= (fib.cleavage_prop f b).bang_unique w₀ h g
 
 def pullback
   {C₀ : Category.{u,v}} (C : Category.Displayed C₀) [fib : Fibration C]

@@ -11,21 +11,21 @@ structure Cocartesian
   {f₀ : a₀ ⟶ b₀} (f : a [ f₀ ]⟶ b)
 where
   cobang
-    : {c₀ : C₀} → {c : C c₀}
-    → {g₀ : a₀ ⟶ c₀} → (g : a [ g₀ ]⟶ c)
-    → (w₀ : b₀ ⟶ c₀)
+    : {c₀ : C₀} → {g₀ : a₀ ⟶ c₀} → (w₀ : b₀ ⟶ c₀)
     → f₀ ≫ w₀ = g₀
+    → {c : C c₀} → (g : a [ g₀ ]⟶ c)
     → (b [ w₀ ]⟶ c)
   cobang_prop :
-    ∀ {c₀ : C₀} {c : C c₀},
-    ∀ {g₀ : a₀ ⟶ c₀} (g : a [ g₀ ]⟶ c),
-    ∀ (w₀ : b₀ ⟶ c₀),
-      (h : f₀ ≫ w₀ = g₀) → f ≫ cobang g w₀ h =* g
+    ∀ {c₀ : C₀} {g₀ : a₀ ⟶ c₀} (w₀ : b₀ ⟶ c₀),
+      (h : f₀ ≫ w₀ = g₀) →
+    ∀ {c : C c₀} (g : a [ g₀ ]⟶ c),
+      f ≫ cobang w₀ h g =* g
   cobang_unique :
-    ∀ {g₀ : a₀ ⟶ c₀} (g : a [ g₀ ]⟶ c),
-    ∀ (w₀ : b₀ ⟶ c₀), (h : f₀ ≫ w₀ = g₀) →
-    ∀ (w' : b [ w₀ ]⟶ c),
-      f ≫ w' =* g → cobang g w₀ h = w'
+    ∀ {c₀ : C₀} {g₀ : a₀ ⟶ c₀} (w₀ : b₀ ⟶ c₀),
+      (h : f₀ ≫ w₀ = g₀) →
+    ∀ {c : C c₀} (g : a [ g₀ ]⟶ c),
+    ∀ (cobang' : b [ w₀ ]⟶ c),
+      f ≫ cobang' =* g → cobang w₀ h g = cobang'
 
 class Opfibration
   {C₀ : Category.{u,v}} (C : Category.Displayed C₀)
@@ -63,7 +63,7 @@ def cobang
   (w₀ : y ⟶ c₀)
   (h : f ≫ w₀ = g₀)
   : (oplift_obj f a) [ w₀ ]⟶ c
-:= (fib.cleavage_prop f a).cobang g w₀ h
+:= (fib.cleavage_prop f a).cobang w₀ h g
 
 def cobang_prop
   {C₀ : Category.{u,v}} {C : Category.Displayed C₀} [fib : Opfibration C]
@@ -72,7 +72,7 @@ def cobang_prop
   (w₀ : y ⟶ c₀)
   (h : f ≫ w₀ = g₀)
   : oplift_hom f a ≫ cobang f a g w₀ h =* g
-:= (fib.cleavage_prop f a).cobang_prop g w₀ h
+:= (fib.cleavage_prop f a).cobang_prop w₀ h g
 
 def cobang_unique
   {C₀ : Category.{u,v}} {C : Category.Displayed C₀} [fib : Opfibration C]
@@ -82,7 +82,7 @@ def cobang_unique
   (h : f ≫ w₀ = g₀)
   : ∀ (w' : (oplift_obj f a) [ w₀ ]⟶ c),
     (oplift_hom f a ≫ w' =* g) → cobang f a g w₀ h = w'
-:= (fib.cleavage_prop f a).cobang_unique g w₀ h
+:= (fib.cleavage_prop f a).cobang_unique w₀ h g
 
 def pushforward
   {C₀ : Category.{u,v}} (C : Category.Displayed C₀) [fib : Opfibration C]

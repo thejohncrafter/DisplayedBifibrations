@@ -10,7 +10,7 @@ namespace DispBifib
 
 def push_pull_adjunction
   {C₀ : Category.{u,v}} {C : Category.Displayed C₀}
-  [fib : Fibration C] [opfib : Opfibration C]
+  [Fibration C] [Opfibration C]
   {x y : C₀} (f : x ⟶ y)
   : Adjunction (pushforward C f) (pullback C f)
 where
