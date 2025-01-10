@@ -102,4 +102,33 @@ instance
   : CoeFun (C ⇒ D) (fun _ => C → D)
 := inferInstanceAs (CoeFun (Functor C D) (fun _ => C → D))
 
+def Functor.id (C : Category.{u,v}) : C ⇒ C where
+  map a := a
+  fmap f := f
+  fmap_id _ := rfl
+  fmap_comp _ _ := rfl
+
+def Functor.comp
+  {B : Category.{u₁,v₁}} {C : Category.{u₂,v₂}} {D : Category.{u₃,v₃}}
+  (F : B ⇒ C) (G : C ⇒ D)
+  : B ⇒ D
+where
+  map a := G (F a)
+  fmap f := G.fmap (F.fmap f)
+  fmap_id a := by
+    dsimp
+    rw [F.fmap_id, G.fmap_id]
+  fmap_comp f g := by
+    dsimp
+    rw [F.fmap_comp, G.fmap_comp]
+
+instance : Id Category.{u,v} (fun C D => C ⇒ D) where
+  id := Functor.id
+
+instance
+  {B : Category.{u₁,v₁}} {C : Category.{u₂,v₂}} {D : Category.{u₃,v₃}}
+  : Comp (B ⇒ C) (C ⇒ D) (B ⇒ D)
+where
+  comp := Functor.comp
+
 end DispBifib

@@ -1,7 +1,6 @@
 import DispBifib.Notation
 import DispBifib.IdxEq
 import DispBifib.Category
-
 import DispBifib.Displayed
 
 namespace DispBifib
@@ -26,7 +25,7 @@ where
     ∀ {g₀ : c₀ ⟶ b₀} (g : c [ g₀ ]⟶ b),
     ∀ (w₀ : c₀ ⟶ a₀), (h : w₀ ≫ f₀ = g₀) →
     ∀ (w' : c [ w₀ ]⟶ a),
-      w' ≫ f =* g → w' = bang g w₀ h
+      w' ≫ f =* g → bang g w₀ h = w'
 
 class Fibration
   {C₀ : Category.{u,v}} (C : Category.Displayed C₀)
@@ -82,10 +81,10 @@ def bang_unique
   (w₀ : c₀ ⟶ x)
   (h : w₀ ≫ f = g₀)
   : ∀ (w' : c [ w₀ ]⟶ lift_obj f b),
-    (w' ≫ lift_hom f b =* g) → w' = bang f b g w₀ h
+    (w' ≫ lift_hom f b =* g) → bang f b g w₀ h = w'
 := (fib.cleavage_prop f b).bang_unique g w₀ h
 
-def pullback_functor
+def pullback
   {C₀ : Category.{u,v}} (C : Category.Displayed C₀) [fib : Fibration C]
   {x y : C₀} (f : x ⟶ y) : fiber C y ⇒ fiber C x
 where
@@ -94,12 +93,10 @@ where
     have p : 𝟙 x ≫ f = f ≫ 𝟙 y := by rw [C₀.id_comp, C₀.comp_id]
     bang f b' (lift_hom f b ≫ g) (𝟙 x) p
   fmap_id b := by
-    symm
     apply bang_unique f b
     exact .trans (C.id_comp _) (C.comp_id _).symm
   fmap_comp {b₁ b₂ b₃} g g' := by
     dsimp
-    symm
     apply bang_unique f b₃
     apply IdxEq.trans3
       (idxeq_comp (fiber_comp_eq _ _) _)

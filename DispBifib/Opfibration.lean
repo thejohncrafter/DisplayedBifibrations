@@ -1,7 +1,6 @@
 import DispBifib.Notation
 import DispBifib.IdxEq
 import DispBifib.Category
-
 import DispBifib.Displayed
 
 namespace DispBifib
@@ -26,7 +25,7 @@ where
     ∀ {g₀ : a₀ ⟶ c₀} (g : a [ g₀ ]⟶ c),
     ∀ (w₀ : b₀ ⟶ c₀), (h : f₀ ≫ w₀ = g₀) →
     ∀ (w' : b [ w₀ ]⟶ c),
-      f ≫ w' =* g → w' = cobang g w₀ h
+      f ≫ w' =* g → cobang g w₀ h = w'
 
 class Opfibration
   {C₀ : Category.{u,v}} (C : Category.Displayed C₀)
@@ -82,10 +81,10 @@ def cobang_unique
   (w₀ : y ⟶ c₀)
   (h : f ≫ w₀ = g₀)
   : ∀ (w' : (oplift_obj f a) [ w₀ ]⟶ c),
-    (oplift_hom f a ≫ w' =* g) → w' = cobang f a g w₀ h
+    (oplift_hom f a ≫ w' =* g) → cobang f a g w₀ h = w'
 := (fib.cleavage_prop f a).cobang_unique g w₀ h
 
-def pushforward_functor
+def pushforward
   {C₀ : Category.{u,v}} (C : Category.Displayed C₀) [fib : Opfibration C]
   {x y : C₀} (f : x ⟶ y) : fiber C x ⇒ fiber C y
 where
@@ -94,12 +93,9 @@ where
     have p : f ≫ 𝟙 y = 𝟙 x ≫ f := by rw [C₀.id_comp, C₀.comp_id]
     cobang f a (g ≫ oplift_hom f a') (𝟙 y) p
   fmap_id a := by
-    symm
     apply cobang_unique f a
     exact .trans (C.comp_id _) (C.id_comp _).symm
   fmap_comp {a₁ a₂ a₃} g g' := by
-    dsimp
-    symm
     apply cobang_unique f a₁
     apply IdxEq.trans3
       (comp_idxeq _ (fiber_comp_eq _ _))
