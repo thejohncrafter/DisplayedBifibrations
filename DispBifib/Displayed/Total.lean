@@ -53,36 +53,6 @@ def fiber_comp_eq
   : fiber_comp f g =* f ≫ g
 := IdxEq.reindexₗ (id_mul x) (IdxEq.refl _)
 
-def fiber_comp_eq₂
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀} {x : C₀}
-  {a b c d : C x} (f : a [ 𝟙 x ]⟶ b) (g : b [ 𝟙 x ]⟶ c) (h : c [ 𝟙 x ]⟶ d)
-  : fiber_comp f (fiber_comp g h) =* f ≫ g ≫ h
-:= by
-  apply IdxEq.trans (fiber_comp_eq _ _)
-  apply idxCongrArg (fun {φ₀ : x ⟶ x} (φ : b [ φ₀ ]⟶ d) => f ≫ φ)
-  apply IdxEq.trans (fiber_comp_eq _ _)
-  rfl
-
-theorem idxeq_comp
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀}
-  {a₀ b₀ c₀ : C₀} {a : C a₀} {b : C b₀} {c : C c₀}
-  {f₀ : a₀ ⟶ b₀} {f : a [ f₀ ]⟶ b}
-  {g₀ : a₀ ⟶ b₀} {g : a [ g₀ ]⟶ b}
-  (heq : f =* g)
-  {h₀ : b₀ ⟶ c₀} (h : b [ h₀ ]⟶ c)
-  : f ≫ h =* g ≫ h
-:= idxCongrArg (fun {φ₀} (φ : a [ φ₀ ]⟶ b) => φ ≫ h) heq
-
-theorem comp_idxeq
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀}
-  {a₀ b₀ c₀ : C₀} {a : C a₀} {b : C b₀} {c : C c₀}
-  {f₀ : a₀ ⟶ b₀} (f : a [ f₀ ]⟶ b)
-  {g₀ : b₀ ⟶ c₀} {g : b [ g₀ ]⟶ c}
-  {h₀ : b₀ ⟶ c₀} {h : b [ h₀ ]⟶ c}
-  (heq : g =* h)
-  : f ≫ g =* f ≫ h
-:= idxCongrArg (fun {φ₀} (φ : b [ φ₀ ]⟶ c) => f ≫ φ) heq
-
 def fiber
   {C₀ : Category.{u,v}} (C : Category.Displayed C₀) (x : C₀)
   : Category.{u,v}

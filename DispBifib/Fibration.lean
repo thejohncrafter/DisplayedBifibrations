@@ -54,7 +54,7 @@ def lift_obj
 
 def lift_hom
   {C₀ : Category.{u,v}} {C : Category.Displayed C₀} [fib : Fibration C]
-  : {x y : C₀} → (f : x ⟶ y) → (a : C y) → ((lift_obj f a) [ f ]⟶ a)
+  : {x y : C₀} → (f : x ⟶ y) → (b : C y) → ((lift_obj f b) [ f ]⟶ b)
 := fib.cleavage_hom
 
 def bang
@@ -98,16 +98,17 @@ where
     apply bang_unique f b
     exact .trans (C.id_comp _) (C.comp_id _).symm
   fmap_comp {b₁ b₂ b₃} g g' := by
+    dsimp
     symm
     apply bang_unique f b₃
-    apply IdxEq.trans (idxeq_comp (fiber_comp_eq _ _) _)
-    apply IdxEq.trans (C.assoc _ _ _)
+    apply IdxEq.trans3
+      (idxeq_comp (fiber_comp_eq _ _) _)
+      _
+      (comp_idxeq _ (fiber_comp_eq _ _).symm)
+    apply IdxEq.trans3 (C.assoc _ _ _) _ (C.assoc _ _ _)
     apply IdxEq.trans (comp_idxeq _ (bang_prop f b₃ _ _ _)) _
     apply IdxEq.trans (C.assoc _ _ _).symm
-    apply IdxEq.trans _ (comp_idxeq _ (fiber_comp_eq _ _).symm)
-    apply IdxEq.trans _ (C.assoc _ _ _)
-    apply idxeq_comp
-    apply bang_prop
+    apply idxeq_comp (bang_prop _ _ _ _ _)
 
 
 end DispBifib

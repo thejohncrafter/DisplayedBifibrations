@@ -78,4 +78,28 @@ instance
 where
   coe C := C.obj
 
+section Lemmas
+
+theorem idxeq_comp
+  {C₀ : Category.{u,v}} {C : Category.Displayed C₀}
+  {a₀ b₀ c₀ : C₀} {a : C a₀} {b : C b₀} {c : C c₀}
+  {f₀ : a₀ ⟶ b₀} {f : a [ f₀ ]⟶ b}
+  {g₀ : a₀ ⟶ b₀} {g : a [ g₀ ]⟶ b}
+  (heq : f =* g)
+  {h₀ : b₀ ⟶ c₀} (h : b [ h₀ ]⟶ c)
+  : f ≫ h =* g ≫ h
+:= idxCongrArg (fun {φ₀} (φ : a [ φ₀ ]⟶ b) => φ ≫ h) heq
+
+theorem comp_idxeq
+  {C₀ : Category.{u,v}} {C : Category.Displayed C₀}
+  {a₀ b₀ c₀ : C₀} {a : C a₀} {b : C b₀} {c : C c₀}
+  {f₀ : a₀ ⟶ b₀} (f : a [ f₀ ]⟶ b)
+  {g₀ : b₀ ⟶ c₀} {g : b [ g₀ ]⟶ c}
+  {h₀ : b₀ ⟶ c₀} {h : b [ h₀ ]⟶ c}
+  (heq : g =* h)
+  : f ≫ g =* f ≫ h
+:= idxCongrArg (fun {φ₀} (φ : b [ φ₀ ]⟶ c) => f ≫ φ) heq
+
+end Lemmas
+
 end DispBifib
