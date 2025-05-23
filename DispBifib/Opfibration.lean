@@ -12,7 +12,7 @@ where
   b : C b₀
   f₀ : b₀ ⟶ c₀
 
-def OpfibrationalProblem.pullback
+def OpfibrationalProblem.pushforward
   {C₀ : Category.{u,v}} {C : Category.Displayed C₀}
   {d₀ c₀ : C₀} (φ₀ : c₀ ⟶ d₀)
   (pb : OpfibrationalProblem C c₀) : OpfibrationalProblem C d₀
@@ -28,11 +28,11 @@ structure OpfibrationalSolution
 where
   f : pb.b [ pb.f₀ ]⟶ c
 
-def OpfibrationalSolution.pullback
+def OpfibrationalSolution.pushforward
   {C₀ : Category.{u,v}} {C : Category.Displayed C₀}
   {c₀ : C₀} {pb : OpfibrationalProblem C c₀}
   {d₀ : C₀} {d : C d₀} {c : C c₀} {φ₀ : c₀ ⟶ d₀} (φ : c [ φ₀ ]⟶ d)
-  (sol : OpfibrationalSolution pb c) : OpfibrationalSolution (pb.pullback φ₀) d
+  (sol : OpfibrationalSolution pb c) : OpfibrationalSolution (pb.pushforward φ₀) d
 where
   f := sol.f ≫ φ
 
@@ -44,18 +44,18 @@ where
   toHom
     : {c₀ d₀ : C₀} → (φ₀ : c₀ ⟶ d₀)
     → (pb : OpfibrationalProblem C c₀)
-    → (d : C d₀) → OpfibrationalSolution (pb.pullback φ₀) d
+    → (d : C d₀) → OpfibrationalSolution (pb.pushforward φ₀) d
     → ((obj c₀ pb) [ φ₀ ]⟶ d)
   inv₁
     : {c₀ d₀ : C₀} → (φ₀ : c₀ ⟶ d₀)
     → (pb : OpfibrationalProblem C c₀)
-    → (d : C d₀) → (s : OpfibrationalSolution (pb.pullback φ₀) d)
-    → (sol c₀ pb).pullback (toHom φ₀ pb d s) = s
+    → (d : C d₀) → (s : OpfibrationalSolution (pb.pushforward φ₀) d)
+    → (sol c₀ pb).pushforward (toHom φ₀ pb d s) = s
   inv₂
     : {c₀ d₀ : C₀} → (φ₀ : c₀ ⟶ d₀)
     → (pb : OpfibrationalProblem C c₀)
     → (d : C d₀) → (φ : (obj c₀ pb) [ φ₀ ]⟶ d)
-    → toHom φ₀ pb d ((sol c₀ pb).pullback φ) = φ
+    → toHom φ₀ pb d ((sol c₀ pb).pushforward φ) = φ
 
 def oplift_obj
   {C₀ : Category.{u,v}} {C : Category.Displayed C₀} [fib : Opfibration C]
