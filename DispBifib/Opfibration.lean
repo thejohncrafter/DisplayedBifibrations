@@ -104,7 +104,7 @@ def opfactor_unique
   have h' := eq_of_idx_eq _ h'; subst h'
   exact fib.inv₂ w₀ ⟨ x, a, f ⟩ c w'
 
-def pushforward
+def pushforward_functor
   {C₀ : Category u v} (C : DisplayedCategory u' v' C₀) [fib : Opfibration C]
   {x y : C₀} (f : x ⟶ y) : fiber C x ⇒ fiber C y
 where

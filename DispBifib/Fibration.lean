@@ -106,7 +106,7 @@ def factor_unique
   have h' := eq_of_idx_eq _ h'; subst h'
   exact fib.inv₂ w₀ ⟨ y, b, f ⟩ c w'
 
-def pullback
+def pullback_functor
   {C₀ : Category u v} (C : DisplayedCategory u' v' C₀) [fib : Fibration C]
   {x y : C₀} (f : x ⟶ y) : fiber C y ⇒ fiber C x
 where
