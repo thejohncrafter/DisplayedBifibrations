@@ -6,14 +6,14 @@ import DispBifib.Displayed
 namespace DispBifib
 
 structure OpfibrationalProblem
-  {C₀ : Category.{u,v}} (C : Category.Displayed C₀) (c₀ : C₀)
+  {C₀ : Category u v} (C : DisplayedCategory u' v' C₀) (c₀ : C₀)
 where
   b₀ : C₀
   b : C b₀
   f₀ : b₀ ⟶ c₀
 
 def OpfibrationalProblem.pushforward
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀}
+  {C₀ : Category u v} {C : DisplayedCategory u' v' C₀}
   {d₀ c₀ : C₀} (φ₀ : c₀ ⟶ d₀)
   (pb : OpfibrationalProblem C c₀) : OpfibrationalProblem C d₀
 where
@@ -23,13 +23,13 @@ where
 
 @[ext]
 structure OpfibrationalSolution
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀}
+  {C₀ : Category u v} {C : DisplayedCategory u' v' C₀}
   {c₀ : C₀} (pb : OpfibrationalProblem C c₀) (c : C c₀)
 where
   f : pb.b [ pb.f₀ ]⟶ c
 
 def OpfibrationalSolution.pushforward
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀}
+  {C₀ : Category u v} {C : DisplayedCategory u' v' C₀}
   {c₀ : C₀} {pb : OpfibrationalProblem C c₀}
   {d₀ : C₀} {d : C d₀} {c : C c₀} {φ₀ : c₀ ⟶ d₀} (φ : c [ φ₀ ]⟶ d)
   (sol : OpfibrationalSolution pb c) : OpfibrationalSolution (pb.pushforward φ₀) d
@@ -37,7 +37,7 @@ where
   f := sol.f ≫ φ
 
 class Opfibration
-  {C₀ : Category.{u,v}} (C : Category.Displayed C₀)
+  {C₀ : Category u v} (C : DisplayedCategory u' v' C₀)
 where
   obj : (c₀ : C₀) → OpfibrationalProblem C c₀ → C c₀
   sol : (c₀ : C₀) → (pb : OpfibrationalProblem C c₀) → OpfibrationalSolution pb (obj c₀ pb)
@@ -58,17 +58,17 @@ where
     → toHom φ₀ pb d ((sol c₀ pb).pushforward φ) = φ
 
 def oplift_obj
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀} [fib : Opfibration C]
+  {C₀ : Category u v} {C : DisplayedCategory u' v' C₀} [fib : Opfibration C]
   {a₀ b₀ : C₀} (f₀ : a₀ ⟶ b₀) (a : C a₀) : C b₀
 := fib.obj b₀ ⟨ a₀, a, f₀ ⟩
 
 def oplift_hom
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀} [fib : Opfibration C]
+  {C₀ : Category u v} {C : DisplayedCategory u' v' C₀} [fib : Opfibration C]
   {a₀ b₀ : C₀} (f₀ : a₀ ⟶ b₀) (a : C a₀) : (a [ f₀ ]⟶ oplift_obj f₀ a)
 := (fib.sol b₀ ⟨ a₀, a, f₀ ⟩).f
 
 def opfactor
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀} [fib : Opfibration C]
+  {C₀ : Category u v} {C : DisplayedCategory u' v' C₀} [fib : Opfibration C]
   {x y : C₀} (f : x ⟶ y) (a : C x)
   {c₀ : C₀} {c : C c₀} {g₀ : x ⟶ c₀} (g : a [ g₀ ]⟶ c)
   (w₀ : y ⟶ c₀)
@@ -79,7 +79,7 @@ def opfactor
   exact fib.toHom w₀ ⟨ x, a, f ⟩ c ⟨ g ⟩
 
 def opfactor_prop
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀} [fib : Opfibration C]
+  {C₀ : Category u v} {C : DisplayedCategory u' v' C₀} [fib : Opfibration C]
   {x y : C₀} (f : x ⟶ y) (a : C x)
   {c₀ : C₀} {c : C c₀} {g₀ : x ⟶ c₀} (g : a [ g₀ ]⟶ c)
   (w₀ : y ⟶ c₀)
@@ -91,7 +91,7 @@ def opfactor_prop
   exact congrArg OpfibrationalSolution.f <| fib.inv₁ w₀ ⟨ x, a, f ⟩ c ⟨ g ⟩
 
 def opfactor_unique
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀} [fib : Opfibration C]
+  {C₀ : Category u v} {C : DisplayedCategory u' v' C₀} [fib : Opfibration C]
   {x y : C₀} (f : x ⟶ y) (a : C x)
   {c₀ : C₀} {c : C c₀} {g₀ : x ⟶ c₀} (g : a [ g₀ ]⟶ c)
   (w₀ : y ⟶ c₀)
@@ -105,7 +105,7 @@ def opfactor_unique
   exact fib.inv₂ w₀ ⟨ x, a, f ⟩ c w'
 
 def pushforward
-  {C₀ : Category.{u,v}} (C : Category.Displayed C₀) [fib : Opfibration C]
+  {C₀ : Category u v} (C : DisplayedCategory u' v' C₀) [fib : Opfibration C]
   {x y : C₀} (f : x ⟶ y) : fiber C x ⇒ fiber C y
 where
   map a := oplift_obj f a

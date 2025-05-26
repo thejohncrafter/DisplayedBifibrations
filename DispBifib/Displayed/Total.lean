@@ -8,8 +8,8 @@ import DispBifib.Displayed.DisplayedFunctor
 namespace DispBifib
 
 protected def total_category
-  {C₀ : Category.{u,v}} (C : Category.Displayed C₀)
-  : Category.{u,v}
+  {C₀ : Category u v} (C : DisplayedCategory u' v' C₀)
+  : Category (max u u') (max v v')
 where
   obj := (a₀ : C₀) × (C a₀)
   hom | ⟨ a₀, a ⟩, ⟨ b₀, b ⟩ => (f₀ : a₀ ⟶ b₀) × (a [ f₀ ]⟶ b)
@@ -28,7 +28,7 @@ where
 notation "∫ " C:max => DispBifib.total_category C
 
 def display_map
-  {C₀ : Category.{u,v}} (C : Category.Displayed C₀)
+  {C₀ : Category u v} (C : DisplayedCategory u' v' C₀)
   : ∫ C ⇒ C₀
 where
   map | ⟨ a₀, _ ⟩ => a₀
@@ -37,25 +37,25 @@ where
   fmap_comp _ _ := rfl
 
 private theorem id_mul
-  {C : Category.{u,v}} (x : C)
+  {C : Category u v} (x : C)
   : 𝟙 x ≫ 𝟙 x = 𝟙 x
 := C.comp_id _
 
 def fiber_comp
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀} {x : C₀}
+  {C₀ : Category u v} {C : DisplayedCategory u' v' C₀} {x : C₀}
   {a b c : C x} (f : a [ 𝟙 x ]⟶ b) (g : b [ 𝟙 x ]⟶ c)
   : a [ 𝟙 x ]⟶ c
 := reindex (fun f₀ => a [ f₀ ]⟶ c) (id_mul x) (f ≫ g)
 
 def fiber_comp_eq
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀} {x : C₀}
+  {C₀ : Category u v} {C : DisplayedCategory u' v' C₀} {x : C₀}
   {a b c : C x} (f : a [ 𝟙 x ]⟶ b) (g : b [ 𝟙 x ]⟶ c)
   : fiber_comp f g =* f ≫ g
 := IdxEq.reindexₗ (id_mul x) (IdxEq.refl _)
 
 def fiber
-  {C₀ : Category.{u,v}} (C : Category.Displayed C₀) (x : C₀)
-  : Category.{u,v}
+  {C₀ : Category u v} (C : DisplayedCategory u' v' C₀) (x : C₀)
+  : Category u' v'
 where
   obj := C x
   hom a b := a [ 𝟙 x ]⟶ b
@@ -82,8 +82,8 @@ where
       rfl
 
 def fiber_magma
-  {C₀ : Category.{u,v}} (C : Category.Displayed C₀) (x : C₀)
-  : Magma.{u,v}
+  {C₀ : Category u v} (C : DisplayedCategory u' v' C₀) (x : C₀)
+  : Magma u' v'
 where
   obj := C x
   hom a b := a [ 𝟙 x ]⟶ b

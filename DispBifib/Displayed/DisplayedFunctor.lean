@@ -7,10 +7,10 @@ import DispBifib.Displayed.DisplayedCategory
 namespace DispBifib
 
 protected structure Functor.Displayed
-  {C₀ : Category.{u₁,v₁}} {D₀ : Category.{u₂,v₂}}
-  (C : Category.Displayed C₀) (D : Category.Displayed D₀)
+  {C₀ : Category u₁ v₁} {D₀ : Category u₂ v₂}
+  (C : DisplayedCategory u'₁ v'₁ C₀) (D : DisplayedCategory u'₂ v'₂ D₀)
   (F : C₀ ⇒ D₀)
-  : Type (max u₁ u₂ v₁ v₂)
+  : Type (max u₁ u₂ v₁ v₂ u'₁ v'₁ u'₂ v'₂)
 where
   map : {a₀ : C₀} → (a : C a₀) → D (F a₀)
   fmap
@@ -23,8 +23,8 @@ where
       fmap (f ≫ g) =* fmap f ≫ fmap g
 
 instance
-  {C₀ : Category.{u₁,v₁}} {D₀ : Category.{u₂,v₂}}
-  (C : Category.Displayed C₀) (D : Category.Displayed D₀)
+  {C₀ : Category u₁ v₁} {D₀ : Category u₂ v₂}
+  (C : DisplayedCategory u'₁ v'₁ C₀) (D : DisplayedCategory u'₂ v'₂ D₀)
   (F : C₀ ⇒ D₀)
   : CoeFun (Functor.Displayed C D F) (fun _ => {a : C₀} → C a → D (F a))
 where
@@ -32,8 +32,8 @@ where
 
 @[ext]
 protected structure NatTrans.Displayed
-  {C₀ : Category.{u₁,v₁}} {D₀ : Category.{u₂,v₂}}
-  {C : Category.Displayed C₀} {D : Category.Displayed D₀}
+  {C₀ : Category u₁ v₁} {D₀ : Category u₂ v₂}
+  {C : DisplayedCategory u'₁ v'₁ C₀} {D : DisplayedCategory u'₂ v'₂ D₀}
   {F₀ G₀ : Functor C₀ D₀}
   (F : Functor.Displayed C D F₀) (G : Functor.Displayed C D G₀)
   (α : NatTrans F₀ G₀)
@@ -44,8 +44,8 @@ where
       F.fmap f ≫ app b =* app a ≫ G.fmap f
 
 theorem NatTrans.Displayed.ext'
-  {C₀ : Category.{u₁,v₁}} {D₀ : Category.{u₂,v₂}}
-  {C : Category.Displayed C₀} {D : Category.Displayed D₀}
+  {C₀ : Category u₁ v₁} {D₀ : Category u₂ v₂}
+  {C : DisplayedCategory u'₁ v'₁ C₀} {D : DisplayedCategory u'₂ v'₂ D₀}
   {F₀ G₀ : Functor C₀ D₀}
   {F : Functor.Displayed C D F₀} {G : Functor.Displayed C D G₀}
   {α₀ β₀ : NatTrans F₀ G₀}
@@ -61,8 +61,8 @@ theorem NatTrans.Displayed.ext'
   exact app a
 
 def NatTrans.Displayed.id
-  {C₀ : Category.{u₁,v₁}} {D₀ : Category.{u₂,v₂}}
-  {C : Category.Displayed C₀} {D : Category.Displayed D₀}
+  {C₀ : Category u₁ v₁} {D₀ : Category u₂ v₂}
+  {C : DisplayedCategory u'₁ v'₁ C₀} {D : DisplayedCategory u'₂ v'₂ D₀}
   {F₀ : C₀ ⇒ D₀} (F : Functor.Displayed C D F₀) : NatTrans.Displayed F F (id F₀)
 where
   app a := 𝟙 (F a)
@@ -73,8 +73,8 @@ where
     exact IdxEq.trans p q
 
 def NatTrans.Displayed.comp
-  {C₀ : Category.{u₁,v₁}} {D₀ : Category.{u₂,v₂}}
-  {C : Category.Displayed C₀} {D : Category.Displayed D₀}
+  {C₀ : Category u₁ v₁} {D₀ : Category u₂ v₂}
+  {C : DisplayedCategory u'₁ v'₁ C₀} {D : DisplayedCategory u'₂ v'₂ D₀}
   {F₀ G₀ H₀ : C₀ ⇒ D₀}
   {F : Functor.Displayed C D F₀}
   {G : Functor.Displayed C D G₀}
@@ -96,8 +96,8 @@ where
     exact IdxEq.trans3 p (D.assoc _ _ _) q
 
 theorem NatTrans.Displayed.id_comp
-  {C₀ : Category.{u₁,v₁}} {D₀ : Category.{u₂,v₂}}
-  {C : Category.Displayed C₀} {D : Category.Displayed D₀}
+  {C₀ : Category u₁ v₁} {D₀ : Category u₂ v₂}
+  {C : DisplayedCategory u'₁ v'₁ C₀} {D : DisplayedCategory u'₂ v'₂ D₀}
   {F₀ G₀ : Functor C₀ D₀}
   {F : Functor.Displayed C D F₀}
   {G : Functor.Displayed C D G₀}
@@ -110,8 +110,8 @@ theorem NatTrans.Displayed.id_comp
     exact D.id_comp _
 
 theorem NatTrans.Displayed.comp_id
-  {C₀ : Category.{u₁,v₁}} {D₀ : Category.{u₂,v₂}}
-  {C : Category.Displayed C₀} {D : Category.Displayed D₀}
+  {C₀ : Category u₁ v₁} {D₀ : Category u₂ v₂}
+  {C : DisplayedCategory u'₁ v'₁ C₀} {D : DisplayedCategory u'₂ v'₂ D₀}
   {F₀ G₀ : Functor C₀ D₀}
   {F : Functor.Displayed C D F₀}
   {G : Functor.Displayed C D G₀}
@@ -124,8 +124,8 @@ theorem NatTrans.Displayed.comp_id
     exact D.comp_id _
 
 theorem NatTrans.Displayed.assoc
-  {C₀ : Category.{u₁,v₁}} {D₀ : Category.{u₂,v₂}}
-  {C : Category.Displayed C₀} {D : Category.Displayed D₀}
+  {C₀ : Category u₁ v₁} {D₀ : Category u₂ v₂}
+  {C : DisplayedCategory u'₁ v'₁ C₀} {D : DisplayedCategory u'₂ v'₂ D₀}
   {F₀ G₀ H₀ K₀ : C₀ ⇒ D₀}
   {F : Functor.Displayed C D F₀}
   {G : Functor.Displayed C D G₀}
@@ -142,10 +142,10 @@ theorem NatTrans.Displayed.assoc
   . intro _ _
     exact D.assoc _ _ _
 
-def FunctorCategory.Displayed
-  {C₀ : Category.{u₁,v₁}} {D₀ : Category.{u₂,v₂}}
-  (C : Category.Displayed C₀) (D : Category.Displayed D₀)
-  : Category.Displayed (C₀ ⇒ D₀)
+def FunctorDisplayedCategory
+  {C₀ : Category u₁ v₁} {D₀ : Category u₂ v₂}
+  (C : DisplayedCategory u'₁ v'₁ C₀) (D : DisplayedCategory u'₂ v'₂ D₀)
+  : DisplayedCategory _ _ (C₀ ⇒ D₀)
 where
   obj := Functor.Displayed C D
   hom := NatTrans.Displayed

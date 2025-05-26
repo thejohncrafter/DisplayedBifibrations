@@ -4,29 +4,34 @@ import DispBifib.Category
 
 namespace DispBifib
 
-universe u v
+universe u' v' u v
 
-protected structure Quiver.Displayed
-  (Q₀ : Quiver.{u,v})
-  : Type (max u v + 1)
+structure DisplayedQuiver
+  (Q₀ : Quiver u v)
+  : Type (max u v u' v' + 1)
 where
-  obj : Q₀.obj → Type u
-  hom : {a b : Q₀.obj} → obj a → obj b → (a ⟶ b) → Type v
+  obj : Q₀.obj → Type u'
+  hom : {a b : Q₀.obj} → obj a → obj b → (a ⟶ b) → Type v'
+
+syntax "DisplayedQuiver " level level (term:arg)+ : term
+
+macro_rules
+| `(DisplayedQuiver $u':level $v':level $args*) => `(«DisplayedQuiver».{$u',$v'} $args*)
 
 instance
-  (Q₀ : Quiver.{u,v})
-  : CoeFun (Quiver.Displayed Q₀) (fun _ => Q₀ → Type u)
+  (Q₀ : Quiver u v)
+  : CoeFun (DisplayedQuiver u' v' Q₀) (fun _ => Q₀ → Type u')
 where
   coe Q := Q.obj
 
 instance
-  {Q₀ : Quiver.{u,v}} (Q : Quiver.Displayed Q₀)
-  {a₀ b₀ : Q₀} : IdxHom (Q a₀) (Q b₀) (a₀ ⟶ b₀) (Type v)
+  {Q₀ : Quiver u v} (Q : DisplayedQuiver u' v' Q₀)
+  {a₀ b₀ : Q₀} : IdxHom (Q a₀) (Q b₀) (a₀ ⟶ b₀) (Type v')
 where
   hom := Q.hom
 
-protected structure Magma.Displayed (M₀ : Magma.{u,v})
-  extends Quiver.Displayed M₀.toQuiver
+structure DisplayedMagma (M₀ : Magma u v)
+  extends DisplayedQuiver u' v' M₀.toQuiver
 where
   id : {a₀ : M₀} → (a : obj a₀) → (a [𝟙 a₀]⟶ a)
   comp
@@ -35,28 +40,33 @@ where
     → {f : a₀ ⟶ b₀} → {g : b₀ ⟶ c₀}
     → (a [f]⟶ b) → (b [g]⟶ c) → (a [f ≫ g]⟶ c)
 
+syntax "DisplayedMagma " level level (term:arg)+ : term
+
+macro_rules
+| `(DisplayedMagma $u':level $v':level $args*) => `(«DisplayedMagma».{$u',$v'} $args*)
+
 instance
-  (M₀ : Magma.{u,v})
-  : CoeFun (Magma.Displayed M₀) (fun _ => M₀ → Type u)
+  (M₀ : Magma u v)
+  : CoeFun (DisplayedMagma u' v' M₀) (fun _ => M₀ → Type u')
 where
   coe M := M.obj
 
 instance
-  {M₀ : Magma.{u,v}} (M : Magma.Displayed M₀)
+  {M₀ : Magma u v} (M : DisplayedMagma u' v' M₀)
   {a₀ : M₀} : Id (M a₀) (fun a b => a [ 𝟙 a₀ ]⟶ b)
 where
   id := M.id
 
 instance
-  {M₀ : Magma.{u,v}} (M : Magma.Displayed M₀)
+  {M₀ : Magma u v} (M : DisplayedMagma u' v' M₀)
   {a₀ b₀ c₀ : M₀} (a : M a₀) (b : M b₀) (c : M c₀)
   (f : a₀ ⟶ b₀) (g : b₀ ⟶ c₀)
   : Comp (a [f]⟶ b) (b [g]⟶ c) (a [f ≫ g]⟶ c)
 where
   comp := M.comp
 
-protected structure Category.Displayed (C₀ : Category.{u,v})
-  extends Magma.Displayed C₀.toMagma
+structure DisplayedCategory (C₀ : Category u v)
+  extends DisplayedMagma u' v' C₀.toMagma
 where
   id_comp :
     ∀ {a₀ b₀ : C₀} {a : obj a₀} {b : obj b₀},
@@ -72,16 +82,21 @@ where
     ∀ (f : a [f₀]⟶ b) (g : b [g₀]⟶ c) (h : c [h₀]⟶ d),
       (f ≫ g) ≫ h =* f ≫ g ≫ h
 
+syntax "DisplayedCategory " level level (term:arg)+ : term
+
+macro_rules
+| `(DisplayedCategory $u':level $v':level $args*) => `(«DisplayedCategory».{$u',$v'} $args*)
+
 instance
-  (C₀ : Category.{u,v})
-  : CoeFun (Category.Displayed C₀) (fun _ => C₀ → Type u)
+  (C₀ : Category u v)
+  : CoeFun (DisplayedCategory u' v' C₀) (fun _ => C₀ → Type u')
 where
   coe C := C.obj
 
 section Lemmas
 
 theorem idxeq_comp
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀}
+  {C₀ : Category u v} {C : DisplayedCategory u' v' C₀}
   {a₀ b₀ c₀ : C₀} {a : C a₀} {b : C b₀} {c : C c₀}
   {f₀ : a₀ ⟶ b₀} {f : a [ f₀ ]⟶ b}
   {g₀ : a₀ ⟶ b₀} {g : a [ g₀ ]⟶ b}
@@ -91,7 +106,7 @@ theorem idxeq_comp
 := idxCongrArg (fun {φ₀} (φ : a [ φ₀ ]⟶ b) => φ ≫ h) heq
 
 theorem comp_idxeq
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀}
+  {C₀ : Category u v} {C : DisplayedCategory u' v' C₀}
   {a₀ b₀ c₀ : C₀} {a : C a₀} {b : C b₀} {c : C c₀}
   {f₀ : a₀ ⟶ b₀} (f : a [ f₀ ]⟶ b)
   {g₀ : b₀ ⟶ c₀} {g : b [ g₀ ]⟶ c}

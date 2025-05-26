@@ -6,7 +6,7 @@ import DispBifib.Category.Functor
 namespace DispBifib
 
 class Adjunction
-  {C D : Category.{u,v}} (L : C ⇒ D) (R : D ⇒ C)
+  {C D : Category u v} (L : C ⇒ D) (R : D ⇒ C)
 where
   appₗᵣ
     : {c : C} → {d : D}
@@ -38,7 +38,7 @@ where
 infix:15 " ⊣ " => Adjunction
 
 def Adjunction.unit
-  {C D : Category.{u,v}} (L : C ⇒ D) (R : D ⇒ C) [adj : L ⊣ R]
+  {C D : Category u v} (L : C ⇒ D) (R : D ⇒ C) [adj : L ⊣ R]
   : 𝟙 C ⟶ L ≫ R
 where
   app a := adj.appₗᵣ (𝟙 (L a))
@@ -48,7 +48,7 @@ where
     rw [D.comp_id, D.id_comp]
 
 def Adjunction.counit
-  {C D : Category.{u,v}} (L : C ⇒ D) (R : D ⇒ C) [adj : L ⊣ R]
+  {C D : Category u v} (L : C ⇒ D) (R : D ⇒ C) [adj : L ⊣ R]
   : R ≫ L ⟶ 𝟙 D
 where
   app a := adj.appᵣₗ (𝟙 (R a))

@@ -9,7 +9,7 @@ import DispBifib.Opfibration
 namespace DispBifib
 
 def push_pull_adjunction
-  {C₀ : Category.{u,v}} {C : Category.Displayed C₀}
+  {C₀ : Category u v} {C : DisplayedCategory u' v' C₀}
   [Fibration C] [Opfibration C]
   {x y : C₀} (f : x ⟶ y)
   : pushforward C f ⊣ pullback C f
